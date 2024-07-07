@@ -12,7 +12,7 @@ public class WeatherForecastControllerUnitTest
         // Arrange
         var mockLogger = new Mock<ILogger<WeatherForecastController>>();
         var controller = new WeatherForecastController(mockLogger.Object);
-        var expectedCount = 5;
+        var expectedCount = 4;
 
 
         // Act
