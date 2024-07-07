@@ -1,15 +1,13 @@
-using API;
 using API.Controllers;
-using Castle.Core.Logging;
 using Microsoft.Extensions.Logging;
 using Moq;
 
-namespace Tests;
+namespace API.Tests;
 
 public class WeatherForecastControllerUnitTest
 {
     [Fact]
-    public void Get_ReturnsCollectionOfWeatherForecasts()
+    public void Get_Returns1CollectionOfWeatherForecasts()
     {
         // Arrange
         var mockLogger = new Mock<ILogger<WeatherForecastController>>();
