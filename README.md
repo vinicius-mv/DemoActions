@@ -35,3 +35,30 @@ $ docker-compose up --build
 
 navigate to http://<my_domain>/WeatherForecast
 
+## Testing the rate limit
+
+- **Install Siege**
+
+$ sudo apt-get install siege
+
+- **Run the test**
+siege -c 30 -r 1 http://localhost/
+
+where:
+
+c: Number of concurrent users.
+
+r: Number of repetitions of the test.
+
+- **Check the NGINX logs for entries related to rate limiting**
+
+When the rate limit is working, you should see some requests being denied with a 503 status code, indicating that the rate limit has been reached.
+
+Logs: Check the NGINX logs for entries related to rate limiting. You can find these logs in the default log location or the one specified in your NGINX configuration.
+
+$ tail -f /var/log/nginx/access.log
+
+$ tail -f /var/log/nginx/error.log
+
+
+
