@@ -12,9 +12,10 @@ This repository contains a simple WebAPI project using the classic WeatherForeca
 
 ## Project Structure
 
-- **/src**: Contains the .NET 6 WebAPI project.
-- **/docker-compose.yml**: Defines the Docker services for the WebAPI and NGINX.
-- **/nginx.conf**: Configuration file for NGINX.
+- **./API/**: Contains the .NET 6 WebAPI project files.
+- **docker-compose.yml**: Defines the Docker services for the WebAPI and NGINX.
+- **nginx.conf**: Configuration file for NGINX.
+- **./dev-certs/**: guide to set up SSL access and development certificates
 
 ## Docker Compose Configuration
 
