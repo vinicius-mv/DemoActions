@@ -28,8 +28,10 @@ The Docker Compose setup includes:
 - **Clone the repository**
 
 - **Build and run the containers**
-   
-$ docker-compose up --build
+
+```ssh
+docker-compose up --build
+```
 
 - **Access the API: Open your browser**
 
@@ -39,10 +41,15 @@ navigate to http://<my_domain>/WeatherForecast
 
 - **Install Siege**
 
-$ sudo apt-get install siege
+```ssh
+sudo apt install siege
+```
 
 - **Run the test**
+
+```ssh
 siege -c 30 -r 1 http://localhost/
+```
 
 where:
 
@@ -56,9 +63,13 @@ When the rate limit is working, you should see some requests being denied with a
 
 Logs: Check the NGINX logs for entries related to rate limiting. You can find these logs in the default log location or the one specified in your NGINX configuration.
 
-$ tail -f /var/log/nginx/access.log
+```ssh
+tail -f /var/log/nginx/access.log
+```
 
-$ tail -f /var/log/nginx/error.log
+```ssh
+tail -f /var/log/nginx/error.log
+```
 
 
 
