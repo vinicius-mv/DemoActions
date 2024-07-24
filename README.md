@@ -1,4 +1,4 @@
-# Simple WebAPI with .NET 6 and Docker
+# Simple WebAPI in .NET 6 with Docker and NGINX Web Server
 
 This repository contains a simple WebAPI project using the classic WeatherForecast template in .NET 6. The application is containerized using Docker and includes a Docker Compose setup that defines an NGINX container for load balancing and rate limiting.
 
