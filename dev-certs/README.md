@@ -52,12 +52,26 @@ http {
 
     server {
         listen 80;
+
+        # server_name  _; # case you only have IP
+        # server_name  <my_server_domain> <www.my_server_domain>;
+         server_name _;
+
+        # redirect to https
+        location / {
+            return 301 https://$host$request_uri;
+        }
+    }
+
+    server {
         listen 443 ssl;  # <=========
 
+        # server_name  _; # case you only have IP
+        # server_name  <my_server_domain> <www.my_server_domain>;
         server_name _;
 
-        ssl_certificate /etc/nginx/selfsigned.crt;      # <=========
-        ssl_certificate_key /etc/nginx/selfsigned.key;  # <=========
+        ssl_certificate /etc/nginx/selfsigned.crt;      # <========= DEVELOPMENT ONLY 
+        ssl_certificate_key /etc/nginx/selfsigned.key;  # <========= DEVELOPMENT ONLY
 
         location / {
             limit_req zone=mylimit burst=20 nodelay;
