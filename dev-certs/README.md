@@ -4,7 +4,7 @@ This guide describes how to set up SSL for your web API using Docker, Nginx, and
 
 ## Prerequisites
 
-- Self-signed SSL certificates (`selfsigned.crt` and `selfsigned.key`)
+- Self-signed SSL certificates (`certificate.crt` and `private.key`)
 
 ## Step-by-Step Guide
 
@@ -13,11 +13,11 @@ This guide describes how to set up SSL for your web API using Docker, Nginx, and
 If you don't already have self-signed certificates, you can generate them using OpenSSL
 
 ```sh
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout dev-certs/selfsigned.key -out dev-certs/selfsigned.crt
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout dev-certs/private.key -out dev-certs/certificate.crt
 ```
 
 ### 2. Update Dockerfile.nginx
-- Copy the certicate files to the nginx folder: ```/etc/nginx/selfsigned.crt```
+- Copy the certicate files to the nginx folder: ```/etc/nginx/certificate.crt```
 - Expose port 443
 
 Exposing the port 443 in the docker file is mainly informative, you still need to expose the ports in the docker compose file.
@@ -29,8 +29,8 @@ FROM nginx:alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy SSL certificates
-COPY ./dev-certs/selfsigned.crt /etc/nginx/selfsigned.crt  # <===========
-COPY ./dev-certs/selfsigned.key /etc/nginx/selfsigned.key  # <===========
+COPY ./dev-certs/certificate.crt /etc/nginx/selfsigned.crt  # <===========
+COPY ./dev-certs/private.key /etc/nginx/selfsigned.key  # <===========
 
 # Expose ports
 EXPOSE 80
