@@ -29,8 +29,8 @@ FROM nginx:alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy SSL certificates
-COPY ./dev-certs/certificate.crt /etc/nginx/selfsigned.crt  # <===========
-COPY ./dev-certs/private.key /etc/nginx/selfsigned.key  # <===========
+COPY ./dev-certs/certificate.crt /etc/nginx/certificate.crt  # <===========
+COPY ./dev-certs/private.key /etc/nginx/private.key  # <===========
 
 # Expose ports
 EXPOSE 80
@@ -70,8 +70,8 @@ http {
         # server_name  <my_server_domain> <www.my_server_domain>;
         server_name _;
 
-        ssl_certificate /etc/nginx/selfsigned.crt;      # <========= DEVELOPMENT ONLY 
-        ssl_certificate_key /etc/nginx/selfsigned.key;  # <========= DEVELOPMENT ONLY
+        ssl_certificate /etc/nginx/certificate.crt;      # <========= DEVELOPMENT ONLY 
+        ssl_certificate_key /etc/nginx/private.key;  # <========= DEVELOPMENT ONLY
 
         location / {
             limit_req zone=mylimit burst=20 nodelay;
