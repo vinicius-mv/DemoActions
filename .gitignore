@@ -5,6 +5,8 @@
 
 # ssl certificates
 nginx/certs/*
+dev-certs/*.crt
+dev-certs/*.key
 
 # dotenv files
 .env
