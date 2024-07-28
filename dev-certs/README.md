@@ -16,8 +16,9 @@ If you don't already have self-signed certificates, you can generate them using 
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout dev-certs/private.key -out dev-certs/certificate.crt
 ```
 
+Copy certificates into folder <repository_root>/nginx/certs/
+
 ### 2. Update Dockerfile.nginx
-- Copy the certicate files to the nginx folder: ```/etc/nginx/certificate.crt```
 - Expose port 443
 
 Exposing the port 443 in the docker file is mainly informative, you still need to expose the ports in the docker compose file.
@@ -25,24 +26,18 @@ Exposing the port 443 in the docker file is mainly informative, you still need t
 ```
 FROM nginx:alpine
 
-# Copy Nginx configuration file
-COPY nginx.conf /etc/nginx/nginx.conf
-
-# Copy SSL certificates
-COPY ./dev-certs/certificate.crt /etc/nginx/certificate.crt  # <===========
-COPY ./dev-certs/private.key /etc/nginx/private.key  # <===========
-
 # Expose ports
 EXPOSE 80
 EXPOSE 443   # <===========
 ```
 
-### 3. Adjust nginx.conf to expose SSL port 443.
+### 3. Adjust <repository_root>/nginx/nginx.conf to expose SSL port 443 and set up the SSL certificates path
 
 ```
 events {}
 
 http {
+
     limit_req_zone $binary_remote_addr zone=mylimit:10m rate=10r/s;
 
     upstream DemoActionsAPI {
@@ -55,23 +50,23 @@ http {
 
         # server_name  _; # case you only have IP
         # server_name  <my_server_domain> <www.my_server_domain>;
-         server_name _;
+        server_name  thisisvinicius.dev www.thisisvinicius.dev;
 
         # redirect to https
         location / {
             return 301 https://$host$request_uri;
         }
     }
-
+            
     server {
-        listen 443 ssl;  # <=========
+        listen 443 ssl;        # <======================
 
         # server_name  _; # case you only have IP
         # server_name  <my_server_domain> <www.my_server_domain>;
-        server_name _;
-
-        ssl_certificate /etc/nginx/certificate.crt;      # <========= DEVELOPMENT ONLY 
-        ssl_certificate_key /etc/nginx/private.key;  # <========= DEVELOPMENT ONLY
+        server_name  quantdev.ovh www.quantdev.ovh; 
+        
+        ssl_certificate /etc/nginx/certs/certificate.crt;    # <======================
+        ssl_certificate_key /etc/nginx/certs/private.key;    # <======================
 
         location / {
             limit_req zone=mylimit burst=20 nodelay;
@@ -90,15 +85,13 @@ http {
 
 Ensure your docker-compose.yml file expose the port 443 for nginx
 
-```
-version: '3.8'
-
+```yml
 services:
   DemoActionsAPI:
     image: demonactionsapi
     build:
       context: .
-      dockerfile: API/Dockerfile.webapi
+      dockerfile: API/Dockerfile
     ports:
       - "5000"
     deploy:
@@ -109,12 +102,20 @@ services:
   nginx:
     image: nginx
     build:
-      context: ./nginx
+      context: .
       dockerfile: Dockerfile.nginx
     ports:
       - "80:80"
-      - "443:443"  # <========= 
+      - "443:443"            # <========
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/html:/usr/share/nginx/html:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
 
+volumes:
+  nginx_conf:
+  html:
+  certs:
 ```
 
 ## 5. Build and Run the Containers 
