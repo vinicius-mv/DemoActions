@@ -1,12 +1,5 @@
 FROM nginx:alpine
 
-# Copy Nginx configuration file
-COPY nginx.conf /etc/nginx/nginx.conf
-
-# Copy SSL certificates
-COPY ./dev-certs/certificate.crt /etc/nginx/certificate.crt
-COPY ./dev-certs/private.key /etc/nginx/private.key
-
 # Expose ports
 EXPOSE 80
 EXPOSE 443
