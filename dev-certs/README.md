@@ -13,10 +13,10 @@ This guide describes how to set up SSL for your web API using Docker, Nginx, and
 If you don't already have self-signed certificates, you can generate them using OpenSSL
 
 ```sh
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout dev-certs/private.key -out dev-certs/certificate.crt
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./private.key -out ./certificate.crt
 ```
 
-Copy certificates into folder <repository_root>/nginx/certs/
+Move certificates to folder <repository_root>/nginx/certs/
 
 ### 2. Update Dockerfile.nginx
 - Expose port 443
